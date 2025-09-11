@@ -1,0 +1,806 @@
+<html>
+<head>
+<title>o1.ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #f7f1ff;}
+.s1 { color: #fc618d;}
+.s2 { color: #8b888f;}
+.s3 { color: #fce566;}
+.s4 { color: #948ae3;}
+.s5 { color: #69676c; font-style: italic;}
+.ls0 { height: 1px; border-width: 0; color: #363537; background-color:#363537}
+</style>
+</head>
+<body bgcolor="#222222">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+o1.ipynb</font>
+</center></td></tr></table>
+<pre><span class="s0">#%% md 
+# MAL O1 
+ 
+#### Gruppe 30 
+ 
+#### September 2025 
+ 
+Lasse Borring Petersen - 202208165 
+ 
+Benjamin Harboe Strunge - 202209864 
+ 
+Esben Inglev - 202210050 
+ 
+Asbjørn Vad - 202208512 
+ 
+\pagebreak 
+ <hr class="ls0">#%% md 
+## Modules and Classes 
+ <hr class="ls0">#%% md 
+Path setup for libs: 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">sys</span><span class="s2">,</span><span class="s0">os</span>
+<span class="s0">sys</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">append</span><span class="s2">(</span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">expanduser</span><span class="s2">(</span><span class="s3">'./libitmal'</span><span class="s2">))</span>
+
+<span class="s1">from </span><span class="s0">libitmal </span><span class="s1">import </span><span class="s0">utils </span><span class="s1">as </span><span class="s0">itmalutils</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">dir</span><span class="s2">(</span><span class="s0">itmalutils</span><span class="s2">))</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">itmalutils</span><span class="s2">.</span><span class="s0">__file__</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qa - Load and test libitmal 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">libitmal </span><span class="s1">import </span><span class="s0">utils </span><span class="s1">as </span><span class="s0">itmalutils</span>
+
+<span class="s0">itmalutils</span><span class="s2">.</span><span class="s0">TestAll</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+### Qb Create your own module, with some functions, and test it 
+ <hr class="ls0">#%% md 
+Below is two small printer functions placed in `malutils` and imported: 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">malutils</span>
+
+<span class="s0">malutils</span><span class="s2">.</span><span class="s0">HelloWorld</span><span class="s2">()</span>
+<span class="s0">malutils</span><span class="s2">.</span><span class="s0">Greeter</span><span class="s2">(</span><span class="s3">&quot;Pokemon!&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qc How do you 'recompile' a module? 
+ 
+#### Answer 
+ 
+Reload of modules can be done in serveral ways. One simple way is to just restart the kernal. 
+Another is the code below. 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">importlib</span>
+<span class="s0">importlib</span><span class="s2">.</span><span class="s0">reload</span><span class="s2">(</span><span class="s0">malutils</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+If you are using VSCode, it is also possible to add the following code to settings.json, which will make the notebook auto reload the module changes. 
+ 
+``` 
+  &quot;jupyter.runStartupCommands&quot;: [&quot;%load_ext autoreload&quot;, &quot;%autoreload 2&quot;], 
+``` 
+ <hr class="ls0">#%% md 
+### Qe Extend the class with some public and private functions and member variables 
+ 
+#### Answers 
+ 
+As can be seen below, private function and member variables are represented in python by two \_\_ prefixed to the name. 
+ 
+The meaning of `self` is that it is a reference to the class instance itself. Other languages have 'this' as a reference to the class instance itself. 
+ 
+Calling a function without `self` in the parameter list is not allowed in python, as can be seen from the output of the exception catch. 
+ <hr class="ls0">#%% 
+</span><span class="s1">class </span><span class="s0">MyClass</span><span class="s1">:</span>
+    <span class="s1">def </span><span class="s0">myFun</span><span class="s2">(</span><span class="s0">self</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">myvar </span><span class="s1">= </span><span class="s3">&quot;Public function&quot;</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;This is a message inside the class, myvar=</span><span class="s4">{</span><span class="s0">self</span><span class="s2">.</span><span class="s0">myvar</span><span class="s4">}</span><span class="s3">.&quot;</span><span class="s2">)</span>
+
+    <span class="s5">#private function</span>
+    <span class="s1">def </span><span class="s0">__myfun</span><span class="s2">(</span><span class="s0">self</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">myvar </span><span class="s1">= </span><span class="s3">&quot;Private&quot;</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;This is a private message inside the class, myvar=</span><span class="s4">{</span><span class="s0">self</span><span class="s2">.</span><span class="s0">myvar</span><span class="s4">}</span><span class="s3">.&quot;</span><span class="s2">)</span>
+
+    <span class="s1">def </span><span class="s0">callToPrivate</span><span class="s2">(</span><span class="s0">self</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Calling private function, myvar=</span><span class="s4">{</span><span class="s0">self</span><span class="s2">.</span><span class="s0">myvar</span><span class="s4">}</span><span class="s3">.&quot;</span><span class="s2">)</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">__myfun</span><span class="s2">()</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;Done with private function&quot;</span><span class="s2">)</span>
+
+    <span class="s1">def </span><span class="s0">myFun2</span><span class="s2">()</span><span class="s1">: </span><span class="s5"># this wont work!</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;No self&quot;</span><span class="s2">)</span>
+
+
+<span class="s0">instance </span><span class="s1">= </span><span class="s0">MyClass</span><span class="s2">()</span>
+
+<span class="s0">instance</span><span class="s2">.</span><span class="s0">myFun</span><span class="s2">()</span>
+<span class="s1">try:</span>
+    <span class="s0">instance</span><span class="s2">.</span><span class="s0">__myfun</span><span class="s2">()</span>
+<span class="s1">except:</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;Exception: can't call private function&quot;</span><span class="s2">)</span>
+
+<span class="s0">instance</span><span class="s2">.</span><span class="s0">callToPrivate</span><span class="s2">()</span>
+<span class="s1">try:</span>
+    <span class="s0">instance</span><span class="s2">.</span><span class="s0">myFun2</span><span class="s2">()</span>
+<span class="s1">except:</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;Exception: no self class method!&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qf Extend the class with a Constructor 
+ <hr class="ls0">#%% md 
+#### Answers 
+ 
+As can be seen below, the constructor is named \_\_init\_\_ and takes the 'self' parameter and an arbitrary number of parameters. 
+There is no real destructor compared to the C++ destructor. Python is a managed language, so objects that are no longer in use are garbage collected. 
+ 
+The \_\_del\_\_ function is not a destructor. It's just a function that gets called when the garbage collector destroys the instance. 
+ <hr class="ls0">#%% 
+</span><span class="s1">class </span><span class="s0">MyCtorClass</span><span class="s1">:</span>
+    <span class="s1">def </span><span class="s0">__init__</span><span class="s2">(</span><span class="s0">self</span><span class="s2">,</span><span class="s0">x</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">x </span><span class="s1">= </span><span class="s0">x</span>
+        <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Constructor called with x=</span><span class="s4">{</span><span class="s0">x</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+    <span class="s1">def </span><span class="s0">GetX</span><span class="s2">(</span><span class="s0">self</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s1">return </span><span class="s0">self</span><span class="s2">.</span><span class="s0">x</span>
+
+<span class="s0">ctorInstance </span><span class="s1">= </span><span class="s0">MyCtorClass</span><span class="s2">(</span><span class="s4">42</span><span class="s2">)</span>
+<span class="s0">num </span><span class="s1">= </span><span class="s0">ctorInstance</span><span class="s2">.</span><span class="s0">GetX</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;numn from instance = </span><span class="s4">{</span><span class="s0">num</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+### Qg Extend the class with a to-string function 
+ 
+Below is a small class with a &quot;to string&quot; method: 
+ <hr class="ls0">#%% 
+</span><span class="s1">class </span><span class="s0">MyToStringClass</span><span class="s1">:</span>
+    <span class="s1">def </span><span class="s0">__init__</span><span class="s2">(</span><span class="s0">self</span><span class="s2">,</span><span class="s0">x</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">x </span><span class="s1">= </span><span class="s0">x</span>
+
+    <span class="s1">def </span><span class="s0">__str__</span><span class="s2">(</span><span class="s0">self</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s1">return </span><span class="s3">f&quot;MyToStringClass (x=</span><span class="s4">{</span><span class="s0">self</span><span class="s2">.</span><span class="s0">x</span><span class="s4">}</span><span class="s3">)&quot;</span>
+
+<span class="s0">strClass </span><span class="s1">= </span><span class="s0">MyToStringClass</span><span class="s2">(</span><span class="s4">420</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s0">strClass</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+## Intro 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">matplotlib</span><span class="s2">.</span><span class="s0">pyplot </span><span class="s1">as </span><span class="s0">plt</span>
+<span class="s1">import </span><span class="s0">numpy </span><span class="s1">as </span><span class="s0">np</span>
+<span class="s1">import </span><span class="s0">pandas </span><span class="s1">as </span><span class="s0">pd</span>
+<span class="s1">import </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">linear_model</span>
+<span class="s1">import </span><span class="s0">os</span>
+
+<span class="s1">def </span><span class="s0">prepare_country_stats</span><span class="s2">(</span><span class="s0">oecd_bli</span><span class="s2">, </span><span class="s0">gdp_per_capita</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">oecd_bli </span><span class="s1">= </span><span class="s0">oecd_bli</span><span class="s2">[</span><span class="s0">oecd_bli</span><span class="s2">[</span><span class="s3">&quot;INEQUALITY&quot;</span><span class="s2">]</span><span class="s1">==</span><span class="s3">&quot;TOT&quot;</span><span class="s2">]</span>
+    <span class="s0">oecd_bli </span><span class="s1">= </span><span class="s0">oecd_bli</span><span class="s2">.</span><span class="s0">pivot</span><span class="s2">(</span><span class="s0">index</span><span class="s1">=</span><span class="s3">&quot;Country&quot;</span><span class="s2">, </span><span class="s0">columns</span><span class="s1">=</span><span class="s3">&quot;Indicator&quot;</span><span class="s2">, </span><span class="s0">values</span><span class="s1">=</span><span class="s3">&quot;Value&quot;</span><span class="s2">)</span>
+    <span class="s0">gdp_per_capita</span><span class="s2">.</span><span class="s0">rename</span><span class="s2">(</span><span class="s0">columns</span><span class="s1">=</span><span class="s2">{</span><span class="s3">&quot;2015&quot;</span><span class="s1">: </span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">}, </span><span class="s0">inplace</span><span class="s1">=True</span><span class="s2">)</span>
+    <span class="s0">gdp_per_capita</span><span class="s2">.</span><span class="s0">set_index</span><span class="s2">(</span><span class="s3">&quot;Country&quot;</span><span class="s2">, </span><span class="s0">inplace</span><span class="s1">=True</span><span class="s2">)</span>
+    <span class="s0">full_country_stats </span><span class="s1">= </span><span class="s0">pd</span><span class="s2">.</span><span class="s0">merge</span><span class="s2">(</span><span class="s0">left</span><span class="s1">=</span><span class="s0">oecd_bli</span><span class="s2">, </span><span class="s0">right</span><span class="s1">=</span><span class="s0">gdp_per_capita</span><span class="s2">,</span>
+                                  <span class="s0">left_index</span><span class="s1">=True</span><span class="s2">, </span><span class="s0">right_index</span><span class="s1">=True</span><span class="s2">)</span>
+    <span class="s0">full_country_stats</span><span class="s2">.</span><span class="s0">sort_values</span><span class="s2">(</span><span class="s0">by</span><span class="s1">=</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">, </span><span class="s0">inplace</span><span class="s1">=True</span><span class="s2">)</span>
+    <span class="s0">remove_indices </span><span class="s1">= </span><span class="s2">[</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">6</span><span class="s2">, </span><span class="s4">8</span><span class="s2">, </span><span class="s4">33</span><span class="s2">, </span><span class="s4">34</span><span class="s2">, </span><span class="s4">35</span><span class="s2">]</span>
+    <span class="s0">keep_indices </span><span class="s1">= </span><span class="s0">list</span><span class="s2">(</span><span class="s0">set</span><span class="s2">(</span><span class="s0">range</span><span class="s2">(</span><span class="s4">36</span><span class="s2">)) </span><span class="s1">- </span><span class="s0">set</span><span class="s2">(</span><span class="s0">remove_indices</span><span class="s2">))</span>
+    <span class="s1">return </span><span class="s0">full_country_stats</span><span class="s2">[[</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">, </span><span class="s3">'Life satisfaction'</span><span class="s2">]].</span><span class="s0">iloc</span><span class="s2">[</span><span class="s0">keep_indices</span><span class="s2">]</span>
+
+<span class="s0">datapath </span><span class="s1">= </span><span class="s0">os</span><span class="s2">.</span><span class="s0">path</span><span class="s2">.</span><span class="s0">join</span><span class="s2">(</span><span class="s3">&quot;./datasets&quot;</span><span class="s2">, </span><span class="s3">&quot;lifesat&quot;</span><span class="s2">, </span><span class="s3">&quot;&quot;</span><span class="s2">)</span>
+
+<span class="s5"># Load the data</span>
+<span class="s0">oecd_bli </span><span class="s1">= </span><span class="s0">pd</span><span class="s2">.</span><span class="s0">read_csv</span><span class="s2">(</span><span class="s0">datapath </span><span class="s1">+ </span><span class="s3">&quot;oecd_bli_2015.csv&quot;</span><span class="s2">, </span><span class="s0">thousands</span><span class="s1">=</span><span class="s3">','</span><span class="s2">)</span>
+<span class="s0">gdp_per_capita </span><span class="s1">= </span><span class="s0">pd</span><span class="s2">.</span><span class="s0">read_csv</span><span class="s2">(</span><span class="s0">datapath </span><span class="s1">+ </span><span class="s3">&quot;gdp_per_capita.csv&quot;</span><span class="s2">,</span><span class="s0">thousands</span><span class="s1">=</span><span class="s3">','</span><span class="s2">,</span><span class="s0">delimiter</span><span class="s1">=</span><span class="s3">'</span><span class="s4">\t</span><span class="s3">'</span><span class="s2">,</span>
+                             <span class="s0">encoding</span><span class="s1">=</span><span class="s3">'latin1'</span><span class="s2">, </span><span class="s0">na_values</span><span class="s1">=</span><span class="s3">&quot;n/a&quot;</span><span class="s2">)</span>
+
+<span class="s5"># Prepare the data</span>
+<span class="s0">country_stats </span><span class="s1">= </span><span class="s0">prepare_country_stats</span><span class="s2">(</span><span class="s0">oecd_bli</span><span class="s2">, </span><span class="s0">gdp_per_capita</span><span class="s2">)</span>
+<span class="s0">X </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">c_</span><span class="s2">[</span><span class="s0">country_stats</span><span class="s2">[</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">]]</span>
+<span class="s0">y </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">c_</span><span class="s2">[</span><span class="s0">country_stats</span><span class="s2">[</span><span class="s3">&quot;Life satisfaction&quot;</span><span class="s2">]]</span>
+
+<span class="s5"># Visualize the data</span>
+<span class="s5">#country_stats.plot(kind='scatter', x=&quot;GDP per capita&quot;, y='Life satisfaction')</span>
+<span class="s5">#plt.show()</span>
+
+<span class="s5"># Select a linear model</span>
+<span class="s0">model </span><span class="s1">= </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">linear_model</span><span class="s2">.</span><span class="s0">LinearRegression</span><span class="s2">()</span>
+<span class="s5"># Train the model</span>
+<span class="s0">model</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;OK&quot;</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+### Qa) The $\theta$ parameters and the $R^2$ Score 
+ <hr class="ls0">#%% md 
+### Answers 
+ 
+Maximum for $R^2$ is 1. 
+ 
+Minimum for $R^2$ is negative infinity. This is if the model makes predictions worse than just guessing the average, and can be a result of overfitting, bad test data etc. 
+ 
+It's better to have a higher R^2 score. This measures the fitness of the model. 
+ <hr class="ls0">#%% 
+</span><span class="s5"># skæring ved x-aksen</span>
+<span class="s0">theta_0 </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">intercept_</span>
+<span class="s5"># koefficienten</span>
+<span class="s0">theta_1 </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">coef_</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;h(x) = </span><span class="s4">{</span><span class="s0">theta_0</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span><span class="s4">:</span><span class="s3">.4f</span><span class="s4">} </span><span class="s3">+ </span><span class="s4">{</span><span class="s0">theta_1</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span><span class="s4">}</span><span class="s3">x&quot;</span><span class="s2">)</span>
+
+<span class="s0">u </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">sum</span><span class="s2">((</span><span class="s0">y </span><span class="s1">- </span><span class="s0">model</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X</span><span class="s2">))</span><span class="s1">**</span><span class="s4">2</span><span class="s2">)</span>
+<span class="s0">v </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">sum</span><span class="s2">((</span><span class="s0">y </span><span class="s1">- </span><span class="s0">np</span><span class="s2">.</span><span class="s0">mean</span><span class="s2">(</span><span class="s0">y</span><span class="s2">))</span><span class="s1">**</span><span class="s4">2</span><span class="s2">)</span>
+
+<span class="s0">R2 </span><span class="s1">= </span><span class="s4">1 </span><span class="s1">- </span><span class="s0">u</span><span class="s1">/</span><span class="s0">v</span>
+<span class="s0">R2_skl </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;R2 = </span><span class="s4">{</span><span class="s0">R2</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;R2_skl = </span><span class="s4">{</span><span class="s0">R2_skl</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qb) Using k-Nearest Neighbors 
+ <hr class="ls0">#%% md 
+### Answers 
+ 
+KNN regressor also uses R^2 as a score, so in that regard they can be compared to each other. However, the knn model might overfit to the data, since k=3 allows for the model to fluctuate a bit. 
+ 
+This information about the score function was found at the following locations in the documentation. 
+ 
+Linear Reg 
+https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.score 
+ 
+KNN 
+https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsRegressor.html#sklearn.neighbors.KNeighborsRegressor.score 
+ <hr class="ls0">#%% 
+</span><span class="s5"># Prepare the data</span>
+<span class="s0">X </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">c_</span><span class="s2">[</span><span class="s0">country_stats</span><span class="s2">[</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">]]</span>
+<span class="s0">y </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">c_</span><span class="s2">[</span><span class="s0">country_stats</span><span class="s2">[</span><span class="s3">&quot;Life satisfaction&quot;</span><span class="s2">]]</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;X.shape=&quot;</span><span class="s2">,</span><span class="s0">X</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;y.shape=&quot;</span><span class="s2">,</span><span class="s0">y</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">)</span>
+
+<span class="s5"># Visualize the data</span>
+<span class="s0">country_stats</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">kind</span><span class="s1">=</span><span class="s3">'scatter'</span><span class="s2">, </span><span class="s0">x</span><span class="s1">=</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">, </span><span class="s0">y</span><span class="s1">=</span><span class="s3">'Life satisfaction'</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s5"># Select and train a model</span>
+<span class="s0">k </span><span class="s1">= </span><span class="s4">3</span>
+<span class="s0">knn </span><span class="s1">= </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">neighbors</span><span class="s2">.</span><span class="s0">KNeighborsRegressor</span><span class="s2">(</span><span class="s0">k</span><span class="s2">)</span>
+<span class="s0">knn</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+
+<span class="s5"># Plot knn</span>
+<span class="s0">m </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">linspace</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">60000</span><span class="s2">, </span><span class="s4">1000</span><span class="s2">)</span>
+<span class="s0">M </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">empty</span><span class="s2">([</span><span class="s0">m</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">], </span><span class="s4">1</span><span class="s2">])</span>
+<span class="s0">M</span><span class="s2">[</span><span class="s1">:</span><span class="s2">, </span><span class="s4">0</span><span class="s2">] </span><span class="s1">= </span><span class="s0">m</span>
+
+<span class="s0">y_pred_lin </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)  </span><span class="s5"># Linear regression predictions</span>
+<span class="s0">y_pred_knn </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+
+<span class="s5"># Create the plot</span>
+<span class="s0">country_stats</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">kind</span><span class="s1">=</span><span class="s3">'scatter'</span><span class="s2">, </span><span class="s0">x</span><span class="s1">=</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">, </span><span class="s0">y</span><span class="s1">=</span><span class="s3">'Life satisfaction'</span><span class="s2">, </span><span class="s0">figsize</span><span class="s1">=</span><span class="s2">(</span><span class="s4">8</span><span class="s2">, </span><span class="s4">6</span><span class="s2">))</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">axis</span><span class="s2">([</span><span class="s4">0</span><span class="s2">, </span><span class="s4">60000</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">10</span><span class="s2">])</span>
+
+<span class="s5"># Plot both model predictions</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_lin</span><span class="s2">, </span><span class="s3">&quot;r-&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;Linear Regression&quot;</span><span class="s2">, </span><span class="s0">linewidth</span><span class="s1">=</span><span class="s4">2</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn</span><span class="s2">, </span><span class="s3">&quot;b--&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">f&quot;KNN (k=</span><span class="s4">{</span><span class="s0">k</span><span class="s4">}</span><span class="s3">)&quot;</span><span class="s2">, </span><span class="s0">linewidth</span><span class="s1">=</span><span class="s4">2</span><span class="s2">)</span>
+
+<span class="s5"># Add labels and legend</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">xlabel</span><span class="s2">(</span><span class="s3">&quot;GDP per capita (USD)&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">ylabel</span><span class="s2">(</span><span class="s3">&quot;Life satisfaction&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">legend</span><span class="s2">()</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s3">&quot;Comparison of Linear Regression vs KNN Regression&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s5"># Print model performance</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Linear Regression Score (R²): </span><span class="s4">{</span><span class="s0">model</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span><span class="s4">:</span><span class="s3">.3f</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN Score (R²): </span><span class="s4">{</span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span><span class="s4">:</span><span class="s3">.3f</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+<span class="s5"># Make prediction for Cyprus</span>
+<span class="s0">X_cyprus </span><span class="s1">= </span><span class="s2">[[</span><span class="s4">22587</span><span class="s2">]]</span>
+<span class="s0">lin_pred </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X_cyprus</span><span class="s2">)</span>
+<span class="s0">knn_pred </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X_cyprus</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;</span><span class="s4">\n</span><span class="s3">Predictions for Cyprus (GDP = 22587 USD):&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Linear Regression: </span><span class="s4">{</span><span class="s0">lin_pred</span><span class="s2">[</span><span class="s4">0</span><span class="s2">][</span><span class="s4">0</span><span class="s2">]</span><span class="s4">:</span><span class="s3">.2f</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN (k=</span><span class="s4">{</span><span class="s0">k</span><span class="s4">}</span><span class="s3">): </span><span class="s4">{</span><span class="s0">knn_pred</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+<span class="s0">knn_score </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score              : </span><span class="s4">{</span><span class="s0">knn_score</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Linear Regression score: </span><span class="s4">{</span><span class="s0">R2_skl</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+### Qc) Tuning Parameter for k-Nearest Neighbors and A Sanity Check 
+ <hr class="ls0">#%% md 
+### Answers 
+ 
+### K=1 gives score 1 
+ 
+This obviously looks good because of what is discussed earlier about higher R2 values, but by looking at the graph, it just fits the model 100%, because it just draws a line between each point. This means it has no idea how to predict anything depending on the training data, and it will just predict the training data value closest to whatever value we are trying to predict using the model. 
+ 
+### k=5, k=10... 
+ 
+The model uses more neighbors to predict new data, where the higher k means it looks at more neighbors to make its prediction. This will make the generalization better, but lower the training score and the R2 value. 
+ 
+### k20... 
+ 
+When setting the neighbor count this high, we risk overfitting, where the line just becomes straight and gives bad predictions again. 
+ <hr class="ls0">#%% 
+country_stats</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">kind</span><span class="s1">=</span><span class="s3">'scatter'</span><span class="s2">, </span><span class="s0">x</span><span class="s1">=</span><span class="s3">&quot;GDP per capita&quot;</span><span class="s2">, </span><span class="s0">y</span><span class="s1">=</span><span class="s3">'Life satisfaction'</span><span class="s2">, </span><span class="s0">figsize</span><span class="s1">=</span><span class="s2">(</span><span class="s4">5</span><span class="s2">,</span><span class="s4">3</span><span class="s2">))</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">axis</span><span class="s2">([</span><span class="s4">0</span><span class="s2">, </span><span class="s4">60000</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">10</span><span class="s2">])</span>
+
+<span class="s5"># create an test matrix M, with the same dimensionality as X, and in the range [0;60000]</span>
+<span class="s5"># and a step size of your choice</span>
+<span class="s0">m</span><span class="s1">=</span><span class="s0">np</span><span class="s2">.</span><span class="s0">linspace</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">60000</span><span class="s2">, </span><span class="s4">1000</span><span class="s2">)</span>
+<span class="s0">M</span><span class="s1">=</span><span class="s0">np</span><span class="s2">.</span><span class="s0">empty</span><span class="s2">([</span><span class="s0">m</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">],</span><span class="s4">1</span><span class="s2">])</span>
+<span class="s0">M</span><span class="s2">[</span><span class="s1">:</span><span class="s2">,</span><span class="s4">0</span><span class="s2">]</span><span class="s1">=</span><span class="s0">m</span>
+
+<span class="s5"># from this test M data, predict the y values via the lin.reg. and k-nearest models</span>
+<span class="s0">y_pred_lin </span><span class="s1">= </span><span class="s0">model</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+<span class="s0">y_pred_knn </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)   </span><span class="s5"># ASSUMING the variable name 'knn' of your KNeighborsRegressor</span>
+
+<span class="s5"># use plt.plot to plot x-y into the sample_data plot..</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_lin</span><span class="s2">, </span><span class="s3">&quot;r&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;Linear Regression&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn</span><span class="s2">, </span><span class="s3">&quot;b&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;KNN (k=3)&quot;</span><span class="s2">)</span>
+<span class="s0">knn_score3 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+
+<span class="s0">knn </span><span class="s1">= </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">neighbors</span><span class="s2">.</span><span class="s0">KNeighborsRegressor</span><span class="s2">(</span><span class="s4">1</span><span class="s2">)</span>
+<span class="s0">knn</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">knn_score1 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">y_pred_knn1 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn1</span><span class="s2">, </span><span class="s3">&quot;y--&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;KNN (k=1)&quot;</span><span class="s2">)</span>
+
+<span class="s0">knn </span><span class="s1">= </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">neighbors</span><span class="s2">.</span><span class="s0">KNeighborsRegressor</span><span class="s2">(</span><span class="s4">2</span><span class="s2">)</span>
+<span class="s0">knn</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">knn_score2 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">y_pred_knn2 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn2</span><span class="s2">, </span><span class="s3">&quot;g--&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;KNN (k=2)&quot;</span><span class="s2">)</span>
+
+<span class="s0">knn </span><span class="s1">= </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">neighbors</span><span class="s2">.</span><span class="s0">KNeighborsRegressor</span><span class="s2">(</span><span class="s4">10</span><span class="s2">)</span>
+<span class="s0">knn</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">knn_score10 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+<span class="s0">y_pred_knn10 </span><span class="s1">= </span><span class="s0">knn</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn10</span><span class="s2">, </span><span class="s3">&quot;k--&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;KNN (k=10)&quot;</span><span class="s2">)</span>
+
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">legend</span><span class="s2">()</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s5">#scores</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score (k=1)   : </span><span class="s4">{</span><span class="s0">knn_score1</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score (k=2)   : </span><span class="s4">{</span><span class="s0">knn_score2</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score (k=3)   : </span><span class="s4">{</span><span class="s0">knn_score3</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score (k=10)  : </span><span class="s4">{</span><span class="s0">knn_score10</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Linear Regression score: </span><span class="s4">{</span><span class="s0">R2_skl</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qd) Trying out a Neural Network 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">neural_network </span><span class="s1">import </span><span class="s0">MLPRegressor</span>
+
+<span class="s5"># Setup MLPRegressor</span>
+<span class="s0">mlp </span><span class="s1">= </span><span class="s0">MLPRegressor</span><span class="s2">( </span><span class="s0">hidden_layer_sizes</span><span class="s1">=</span><span class="s2">(</span><span class="s4">10</span><span class="s2">,), </span><span class="s0">solver</span><span class="s1">=</span><span class="s3">'adam'</span><span class="s2">, </span><span class="s0">activation</span><span class="s1">=</span><span class="s3">'relu'</span><span class="s2">, </span><span class="s0">tol</span><span class="s1">=</span><span class="s4">1E-5</span><span class="s2">, </span><span class="s0">max_iter</span><span class="s1">=</span><span class="s4">100000</span><span class="s2">, </span><span class="s0">verbose</span><span class="s1">=True</span><span class="s2">)</span>
+<span class="s0">mlp</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">.</span><span class="s0">ravel</span><span class="s2">())</span>
+
+<span class="s5"># lets make a MLP regressor prediction and redo the plots</span>
+<span class="s0">y_pred_mlp </span><span class="s1">= </span><span class="s0">mlp</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">M</span><span class="s2">)</span>
+
+<span class="s0">mlp_score </span><span class="s1">= </span><span class="s0">mlp</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span>
+
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_lin</span><span class="s2">, </span><span class="s3">&quot;r&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;Linear Regression&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_knn</span><span class="s2">, </span><span class="s3">&quot;b&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;KNN (k=3)&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">plot</span><span class="s2">(</span><span class="s0">m</span><span class="s2">, </span><span class="s0">y_pred_mlp</span><span class="s2">, </span><span class="s3">&quot;k&quot;</span><span class="s2">, </span><span class="s0">label</span><span class="s1">=</span><span class="s3">&quot;MLP (h=10)&quot;</span><span class="s2">)</span>
+
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">legend</span><span class="s2">()</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s0">y_nn_pred </span><span class="s1">= </span><span class="s0">mlp</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X_cyprus</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Predictions for Cyprus (GDP = 22587 USD): </span><span class="s4">{</span><span class="s0">y_nn_pred</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+<span class="s5"># Scores</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;KNN score (k=3)   : </span><span class="s4">{</span><span class="s0">knn_score3</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Linear Regression score: </span><span class="s4">{</span><span class="s0">R2_skl</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MLP score         : </span><span class="s4">{</span><span class="s0">mlp_score</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+## Answers 
+ 
+### Can the score for MLP be compared with LinReg and KNN? 
+ 
+Yes, in the docs for the MLP's score function, it is calculated the same way as they are in both other fits, so they can be compared. 
+For the MLP, we get a pretty bad fit, as we can see in both the negative R2 score, and by looking at the plot. 
+ 
+https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor.score 
+ <hr class="ls0">#%% md 
+## Cost Function 
+ <hr class="ls0">#%% md 
+### Qa Given the following $\mathbf{x}^{(i)}$'s, construct and print the $\mathbf X$ matrix in python. 
+ <hr class="ls0">#%% md 
+Definitions of $x^{(i)}$'s is stripped from this pdf - can be found in original exercise notebook. 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">numpy </span><span class="s1">as </span><span class="s0">np</span>
+
+<span class="s0">y_true </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">array</span><span class="s2">([</span><span class="s4">1</span><span class="s2">,</span><span class="s4">2</span><span class="s2">,</span><span class="s4">3</span><span class="s2">,</span><span class="s4">4</span><span class="s2">]) </span><span class="s5"># NOTE: you'll need this later</span>
+<span class="s0">X </span><span class="s1">= </span><span class="s0">np</span><span class="s2">.</span><span class="s0">array</span><span class="s2">([[</span><span class="s4">1</span><span class="s2">,</span><span class="s4">2</span><span class="s2">,</span><span class="s4">3</span><span class="s2">],[</span><span class="s4">4</span><span class="s2">,</span><span class="s4">2</span><span class="s2">,</span><span class="s4">1</span><span class="s2">],[</span><span class="s4">3</span><span class="s2">,</span><span class="s4">8</span><span class="s2">,</span><span class="s4">5</span><span class="s2">],[</span><span class="s1">-</span><span class="s4">9</span><span class="s2">,</span><span class="s1">-</span><span class="s4">1</span><span class="s2">,</span><span class="s4">0</span><span class="s2">]])</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;X_true = </span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s0">X</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+#### Qb Implement the L1 and L2 norms for vectors in python. 
+ <hr class="ls0">#%% md 
+Defined without using any methods from libraries, og python primitives. 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">math</span>
+
+<span class="s1">def </span><span class="s0">L1</span><span class="s2">(</span><span class="s0">x</span><span class="s2">)</span><span class="s1">: </span>
+    <span class="s1">if </span><span class="s0">x</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">!= </span><span class="s4">1</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;expected x to be of ndim=1, got ndim=&quot;</span><span class="s2">,</span><span class="s0">X</span><span class="s2">.</span><span class="s0">ndim</span><span class="s2">)    </span>
+    <span class="s0">sum </span><span class="s1">= </span><span class="s4">0</span>
+    <span class="s1">for </span><span class="s0">i </span><span class="s1">in </span><span class="s0">x</span><span class="s1">: </span>
+        <span class="s1">if </span><span class="s0">i </span><span class="s1">&gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s0">sum </span><span class="s1">+= </span><span class="s0">i</span>
+        <span class="s1">else:</span>
+            <span class="s0">sum </span><span class="s1">+= -</span><span class="s0">i</span>
+    <span class="s1">return </span><span class="s0">sum </span>
+
+
+<span class="s1">def </span><span class="s0">L2</span><span class="s2">(</span><span class="s0">x</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">if </span><span class="s0">x</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">!= </span><span class="s4">1</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;expected x to be of ndim=1, got ndim=&quot;</span><span class="s2">,</span><span class="s0">X</span><span class="s2">.</span><span class="s0">ndim</span><span class="s2">)    </span>
+    <span class="s0">sum </span><span class="s1">= </span><span class="s4">0</span>
+    <span class="s1">for </span><span class="s0">i </span><span class="s1">in </span><span class="s0">x</span><span class="s1">:     </span>
+        <span class="s0">sum </span><span class="s1">+= </span><span class="s0">i</span><span class="s1">**</span><span class="s4">2</span>
+    <span class="s0">sum </span><span class="s1">= </span><span class="s0">sum</span><span class="s1">**</span><span class="s4">0.5</span>
+    <span class="s1">return </span><span class="s0">sum</span>
+
+<span class="s1">def </span><span class="s0">L2Dot</span><span class="s2">(</span><span class="s0">x</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">assert </span><span class="s0">x</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">== </span><span class="s4">1 </span><span class="s1">and </span><span class="s0">isinstance</span><span class="s2">(</span><span class="s0">x</span><span class="s2">, </span><span class="s0">np</span><span class="s2">.</span><span class="s0">ndarray</span><span class="s2">)</span>
+    <span class="s1">return </span><span class="s0">x</span><span class="s2">.</span><span class="s0">dot</span><span class="s2">(</span><span class="s0">x</span><span class="s2">)</span><span class="s1">**</span><span class="s4">0.5</span>
+
+<span class="s5"># TEST vectors: here I test your implementation...calling your L1() and L2() functions</span>
+<span class="s0">tx</span><span class="s1">=</span><span class="s0">np</span><span class="s2">.</span><span class="s0">array</span><span class="s2">([</span><span class="s4">1</span><span class="s2">, </span><span class="s4">2</span><span class="s2">, </span><span class="s4">3</span><span class="s2">, </span><span class="s1">-</span><span class="s4">1</span><span class="s2">])</span>
+<span class="s0">ty</span><span class="s1">=</span><span class="s0">np</span><span class="s2">.</span><span class="s0">array</span><span class="s2">([</span><span class="s4">3</span><span class="s2">,</span><span class="s1">-</span><span class="s4">1</span><span class="s2">, </span><span class="s4">4</span><span class="s2">,  </span><span class="s4">1</span><span class="s2">])</span>
+
+<span class="s0">expected_d1</span><span class="s1">=</span><span class="s4">8.0</span>
+<span class="s0">expected_d2</span><span class="s1">=</span><span class="s4">4.242640687119285</span>
+
+<span class="s0">d1</span><span class="s1">=</span><span class="s0">L1</span><span class="s2">(</span><span class="s0">tx</span><span class="s1">-</span><span class="s0">ty</span><span class="s2">)</span>
+<span class="s0">d2</span><span class="s1">=</span><span class="s0">L2</span><span class="s2">(</span><span class="s0">tx</span><span class="s1">-</span><span class="s0">ty</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;tx-ty=</span><span class="s4">{</span><span class="s0">tx</span><span class="s1">-</span><span class="s0">ty</span><span class="s4">}</span><span class="s3">, d1-expected_d1=</span><span class="s4">{</span><span class="s0">d1</span><span class="s1">-</span><span class="s0">expected_d1</span><span class="s4">}</span><span class="s3">, d2-expected_d2=</span><span class="s4">{</span><span class="s0">d2</span><span class="s1">-</span><span class="s0">expected_d2</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+<span class="s0">eps</span><span class="s1">=</span><span class="s4">1E-9</span>
+<span class="s1">assert </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">d1</span><span class="s1">-</span><span class="s0">expected_d1</span><span class="s2">)</span><span class="s1">&lt;</span><span class="s0">eps</span><span class="s2">, </span><span class="s3">&quot;L1 dist seems to be wrong&quot;</span>
+<span class="s1">assert </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">d2</span><span class="s1">-</span><span class="s0">expected_d2</span><span class="s2">)</span><span class="s1">&lt;</span><span class="s0">eps</span><span class="s2">, </span><span class="s3">&quot;L2 dist seems to be wrong&quot;</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;OK(part-1)&quot;</span><span class="s2">)</span>
+
+<span class="s0">d2dot</span><span class="s1">=</span><span class="s0">L2Dot</span><span class="s2">(</span><span class="s0">tx</span><span class="s1">-</span><span class="s0">ty</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;d2dot-expected_d2=&quot;</span><span class="s2">,</span><span class="s0">d2dot</span><span class="s1">-</span><span class="s0">expected_d2</span><span class="s2">)</span>
+<span class="s1">assert </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">d2dot</span><span class="s1">-</span><span class="s0">expected_d2</span><span class="s2">)</span><span class="s1">&lt;</span><span class="s0">eps</span><span class="s2">, </span><span class="s3">&quot;L2Ddot dist seem to be wrong&quot;</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;OK(part-2)&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qc Construct the Root Mean Square Error (RMSE) function (Equation 2-1 [HOML]). 
+ <hr class="ls0">#%% 
+</span><span class="s1">def </span><span class="s0">RMSE</span><span class="s2">(</span><span class="s0">y_pred</span><span class="s2">, </span><span class="s0">y_true</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">assert </span><span class="s0">len</span><span class="s2">(</span><span class="s0">y_pred</span><span class="s2">) </span><span class="s1">== </span><span class="s0">len</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">) </span><span class="s1">and </span><span class="s0">y_pred</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">== </span><span class="s4">1 </span><span class="s1">and </span><span class="s0">y_true</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">== </span><span class="s4">1</span>
+    <span class="s0">err_vec </span><span class="s1">= </span><span class="s0">y_pred </span><span class="s1">- </span><span class="s0">y_true</span>
+    <span class="s0">l2 </span><span class="s1">= </span><span class="s0">L2</span><span class="s2">(</span><span class="s0">err_vec</span><span class="s2">)</span>
+    <span class="s1">return </span><span class="s0">l2 </span><span class="s1">/ </span><span class="s0">len</span><span class="s2">(</span><span class="s0">err_vec</span><span class="s2">)</span><span class="s1">**</span><span class="s4">0.5</span>
+
+<span class="s5"># Dummy h function:</span>
+<span class="s1">def </span><span class="s0">h</span><span class="s2">(</span><span class="s0">X</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">if </span><span class="s0">X</span><span class="s2">.</span><span class="s0">ndim</span><span class="s1">!=</span><span class="s4">2</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;excpeted X to be of ndim=2, got ndim=&quot;</span><span class="s2">,</span><span class="s0">X</span><span class="s2">.</span><span class="s0">ndim</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">X</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span><span class="s1">==</span><span class="s4">0 </span><span class="s1">or </span><span class="s0">X</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">1</span><span class="s2">]</span><span class="s1">==</span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;X got zero data along the 0/1 axis, cannot continue&quot;</span><span class="s2">)</span>
+    <span class="s1">return </span><span class="s0">X</span><span class="s2">[</span><span class="s1">:</span><span class="s2">,</span><span class="s4">0</span><span class="s2">]</span>
+
+<span class="s5"># Calls your RMSE() function:</span>
+<span class="s0">r</span><span class="s1">=</span><span class="s0">RMSE</span><span class="s2">(</span><span class="s0">h</span><span class="s2">(</span><span class="s0">X</span><span class="s2">), </span><span class="s0">y_true</span><span class="s2">)</span>
+
+<span class="s0">eps</span><span class="s1">=</span><span class="s4">1E-9</span>
+<span class="s0">expected</span><span class="s1">=</span><span class="s4">6.57647321898295</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;RMSE=</span><span class="s4">{</span><span class="s0">r</span><span class="s4">}</span><span class="s3">, diff=</span><span class="s4">{</span><span class="s0">r</span><span class="s1">-</span><span class="s0">expected</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s1">assert </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">r</span><span class="s1">-</span><span class="s0">expected</span><span class="s2">)</span><span class="s1">&lt;</span><span class="s0">eps</span><span class="s2">, </span><span class="s3">&quot;your RMSE dist seems to be wrong&quot;</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;OK&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+#### Qd Similar construct the Mean Absolute Error (MAE) function (Equation 2-2 [HOML]) and evaluate it. 
+ <hr class="ls0">#%% 
+</span><span class="s1">def </span><span class="s0">MAE</span><span class="s2">(</span><span class="s0">y_pred</span><span class="s2">, </span><span class="s0">y_true</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">assert </span><span class="s0">len</span><span class="s2">(</span><span class="s0">y_pred</span><span class="s2">) </span><span class="s1">== </span><span class="s0">len</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">) </span><span class="s1">and </span><span class="s0">y_pred</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">== </span><span class="s4">1 </span><span class="s1">and </span><span class="s0">y_true</span><span class="s2">.</span><span class="s0">ndim </span><span class="s1">== </span><span class="s4">1</span>
+    <span class="s0">err_vec </span><span class="s1">= </span><span class="s0">y_pred </span><span class="s1">- </span><span class="s0">y_true</span>
+    <span class="s1">return </span><span class="s0">L1</span><span class="s2">(</span><span class="s0">err_vec</span><span class="s2">) </span><span class="s1">/ </span><span class="s0">len</span><span class="s2">(</span><span class="s0">err_vec</span><span class="s2">)</span>
+
+
+<span class="s5"># Calls your MAE function:</span>
+<span class="s0">r</span><span class="s1">=</span><span class="s0">MAE</span><span class="s2">(</span><span class="s0">h</span><span class="s2">(</span><span class="s0">X</span><span class="s2">), </span><span class="s0">y_true</span><span class="s2">)</span>
+
+<span class="s5"># TEST vector:</span>
+<span class="s0">expected</span><span class="s1">=</span><span class="s4">3.75</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MAE=</span><span class="s4">{</span><span class="s0">r</span><span class="s4">}</span><span class="s3">, diff=</span><span class="s4">{</span><span class="s0">r</span><span class="s1">-</span><span class="s0">expected</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s1">assert </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">r</span><span class="s1">-</span><span class="s0">expected</span><span class="s2">)</span><span class="s1">&lt;</span><span class="s0">eps</span><span class="s2">, </span><span class="s3">&quot;MAE dist seems to be wrong&quot;</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;OK&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Qe Robust Code 
+ 
+The functions above in this journal section are already made robust with asserts. 
+ <hr class="ls0">#%% md 
+### Qf Conclusion 
+ 
+#### Answer 
+ 
+Cost functions are at the basis of what the algorithms view as a success or not. A cost function is essentially, what the measure the machine should look for when training, or try to minimize. What lies behind the cost function is therefore essential. The L1 and L2 calculations are some of the key ingredients in the basic cost functions, and understanding how they work, and what they represent is key. 
+ 
+When L1 is used, the absolute errors are simply summed up. But the L2 squares all of the errors, which means it is more sensitive to outlier data, and is more punishing at larger errors. 
+ <hr class="ls0">#%% md 
+## Dummy Classifier 
+ <hr class="ls0">#%% md 
+#### Qa Load and display the MNIST data 
+ 
+We create the `MNIST_GetDataSet()` and `MNIST_PlotDigit()` functions, so they can be reused later. 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">matplotlib</span><span class="s2">.</span><span class="s0">pyplot </span><span class="s1">as </span><span class="s0">plt</span>
+<span class="s1">import </span><span class="s0">matplotlib</span>
+<span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">datasets </span><span class="s1">import </span><span class="s0">fetch_openml</span>
+
+<span class="s1">def </span><span class="s0">MNIIST_GetDataSet</span><span class="s2">()</span><span class="s1">:</span>
+    <span class="s0">X</span><span class="s2">, </span><span class="s0">y </span><span class="s1">= </span><span class="s0">fetch_openml</span><span class="s2">(</span><span class="s3">'mnist_784'</span><span class="s2">, </span><span class="s0">return_X_y</span><span class="s1">=True</span><span class="s2">, </span><span class="s0">cache</span><span class="s1">=True</span><span class="s2">, </span><span class="s0">as_frame</span><span class="s1">=False</span><span class="s2">)</span>
+    <span class="s1">return </span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span>
+
+<span class="s0">X</span><span class="s2">, </span><span class="s0">y </span><span class="s1">= </span><span class="s0">MNIIST_GetDataSet</span><span class="s2">()</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Shape of X: </span><span class="s4">{</span><span class="s0">X</span><span class="s2">.</span><span class="s0">shape</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s1">def </span><span class="s0">MNIST_PlotDigit</span><span class="s2">(</span><span class="s0">data</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">image </span><span class="s1">= </span><span class="s0">data</span><span class="s2">.</span><span class="s0">reshape</span><span class="s2">(</span><span class="s4">28</span><span class="s2">, </span><span class="s4">28</span><span class="s2">)</span>
+    <span class="s0">plt</span><span class="s2">.</span><span class="s0">imshow</span><span class="s2">(</span><span class="s0">image</span><span class="s2">, </span><span class="s0">cmap </span><span class="s1">= </span><span class="s0">matplotlib</span><span class="s2">.</span><span class="s0">cm</span><span class="s2">.</span><span class="s0">binary</span><span class="s2">)</span>
+    <span class="s0">plt</span><span class="s2">.</span><span class="s0">axis</span><span class="s2">(</span><span class="s3">&quot;off&quot;</span><span class="s2">)</span>
+
+<span class="s0">MNIST_PlotDigit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">[</span><span class="s4">0</span><span class="s2">])</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+#### Qb Add a Stochastic Gradient Decent [SGD] Classifier 
+ <hr class="ls0">#%% md 
+Below the data is split into train and test sets, and the SGD classifier is trained. 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">linear_model </span><span class="s1">import </span><span class="s0">SGDClassifier</span>
+
+<span class="s0">X_train</span><span class="s2">, </span><span class="s0">X_test</span><span class="s2">, </span><span class="s0">y_train</span><span class="s2">, </span><span class="s0">y_test </span><span class="s1">= </span><span class="s0">X</span><span class="s2">[</span><span class="s1">:</span><span class="s4">50000</span><span class="s2">], </span><span class="s0">X</span><span class="s2">[</span><span class="s4">50000</span><span class="s1">:</span><span class="s2">], </span><span class="s0">y</span><span class="s2">[</span><span class="s1">:</span><span class="s4">50000</span><span class="s2">], </span><span class="s0">y</span><span class="s2">[</span><span class="s4">50000</span><span class="s1">:</span><span class="s2">]</span>
+
+<span class="s0">y_train_5 </span><span class="s1">= </span><span class="s2">(</span><span class="s0">y_train </span><span class="s1">== </span><span class="s3">'5'</span><span class="s2">)</span>
+<span class="s0">y_test_5 </span><span class="s1">= </span><span class="s2">(</span><span class="s0">y_test </span><span class="s1">== </span><span class="s3">'5'</span><span class="s2">)</span>
+
+<span class="s0">sgd_clf </span><span class="s1">= </span><span class="s0">SGDClassifier</span><span class="s2">(</span><span class="s0">random_state</span><span class="s1">=</span><span class="s4">42</span><span class="s2">)</span>
+<span class="s0">sgd_clf</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X_train</span><span class="s2">, </span><span class="s0">y_train_5</span><span class="s2">)</span>
+
+<span class="s0">sgd_predict_5 </span><span class="s1">= </span><span class="s0">sgd_clf</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X_test</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+In order to print some correctly classified and incorrectly classified digits, we first get some of the indecies of these digits: 
+ <hr class="ls0">#%% 
+true_positives </span><span class="s1">= </span><span class="s2">[]</span>
+<span class="s0">false_positives </span><span class="s1">= </span><span class="s2">[]</span>
+<span class="s0">false_negatives </span><span class="s1">= </span><span class="s2">[]</span>
+<span class="s1">for </span><span class="s0">i </span><span class="s1">in </span><span class="s0">range</span><span class="s2">(</span><span class="s0">len</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">))</span><span class="s1">:</span>
+    <span class="s1">if </span><span class="s0">y_test_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True and </span><span class="s0">sgd_predict_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True:</span>
+        <span class="s0">true_positives</span><span class="s2">.</span><span class="s0">append</span><span class="s2">(</span><span class="s0">i</span><span class="s2">)</span>
+    <span class="s1">elif </span><span class="s0">y_test_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== False and </span><span class="s0">sgd_predict_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True:</span>
+        <span class="s0">false_positives</span><span class="s2">.</span><span class="s0">append</span><span class="s2">(</span><span class="s0">i</span><span class="s2">)</span>
+    <span class="s1">elif </span><span class="s0">y_test_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True and </span><span class="s0">sgd_predict_5</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== False:</span>
+        <span class="s0">false_negatives</span><span class="s2">.</span><span class="s0">append</span><span class="s2">(</span><span class="s0">i</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Number of true positives : </span><span class="s4">{</span><span class="s0">len</span><span class="s2">(</span><span class="s0">true_positives</span><span class="s2">)</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Number of false positives: </span><span class="s4">{</span><span class="s0">len</span><span class="s2">(</span><span class="s0">false_positives</span><span class="s2">)</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;Number of false negatives: </span><span class="s4">{</span><span class="s0">len</span><span class="s2">(</span><span class="s0">false_negatives</span><span class="s2">)</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Now we plot some digits: 
+ <hr class="ls0">#%% 
+</span><span class="s5"># Plotting some true positives:</span>
+<span class="s1">def </span><span class="s0">PlotMultiple</span><span class="s2">(</span><span class="s0">amount</span><span class="s2">, </span><span class="s0">indicies</span><span class="s2">, </span><span class="s0">X</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">fig</span><span class="s2">, </span><span class="s0">axes </span><span class="s1">= </span><span class="s0">plt</span><span class="s2">.</span><span class="s0">subplots</span><span class="s2">(</span><span class="s4">1</span><span class="s2">, </span><span class="s0">amount</span><span class="s2">, </span><span class="s0">figsize</span><span class="s1">=</span><span class="s2">(</span><span class="s4">12</span><span class="s2">, </span><span class="s4">4</span><span class="s2">))</span>
+    <span class="s1">for </span><span class="s0">i </span><span class="s1">in </span><span class="s0">range</span><span class="s2">(</span><span class="s0">amount</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">plt</span><span class="s2">.</span><span class="s0">subplot</span><span class="s2">(</span><span class="s4">1</span><span class="s2">, </span><span class="s0">amount</span><span class="s2">, </span><span class="s0">i </span><span class="s1">+ </span><span class="s4">1</span><span class="s2">)</span>
+        <span class="s0">MNIST_PlotDigit</span><span class="s2">(</span><span class="s0">X</span><span class="s2">[</span><span class="s0">indicies</span><span class="s2">[</span><span class="s0">i</span><span class="s2">]])</span>
+
+    <span class="s0">plt</span><span class="s2">.</span><span class="s0">tight_layout</span><span class="s2">()</span>
+    <span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s0">PlotMultiple</span><span class="s2">(</span><span class="s4">10</span><span class="s2">, </span><span class="s0">true_positives</span><span class="s2">, </span><span class="s0">X_test</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s5"># Plotting some false positives</span>
+<span class="s0">PlotMultiple</span><span class="s2">(</span><span class="s4">10</span><span class="s2">, </span><span class="s0">false_positives</span><span class="s2">, </span><span class="s0">X_test</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s5"># Plotting some false negatives</span>
+<span class="s0">PlotMultiple</span><span class="s2">(</span><span class="s4">10</span><span class="s2">, </span><span class="s0">false_negatives</span><span class="s2">, </span><span class="s0">X_test</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+#### Qc Implement a dummy binary classifier 
+ <hr class="ls0">#%% md 
+Below is a (very stupid) DummyClassifier, that simply takes in a 'strategy' and classifies everything as that strategy: 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">accuracy_score</span>
+<span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">base </span><span class="s1">import </span><span class="s0">BaseEstimator</span><span class="s2">, </span><span class="s0">ClassifierMixin</span>
+<span class="s1">import </span><span class="s0">numpy </span><span class="s1">as </span><span class="s0">np</span>
+
+<span class="s1">class </span><span class="s0">DummyClassifier</span><span class="s2">(</span><span class="s0">BaseEstimator</span><span class="s2">, </span><span class="s0">ClassifierMixin</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">def </span><span class="s0">__init__</span><span class="s2">(</span><span class="s0">self</span><span class="s2">, </span><span class="s0">strategy</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">self</span><span class="s2">.</span><span class="s0">strategy </span><span class="s1">= </span><span class="s0">strategy</span>
+
+    <span class="s1">def </span><span class="s0">fit</span><span class="s2">(</span><span class="s0">self</span><span class="s2">, </span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s1">=None</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s5"># Actually do nothing</span>
+        <span class="s1">return </span><span class="s0">self</span>
+
+    <span class="s1">def </span><span class="s0">predict</span><span class="s2">(</span><span class="s0">self</span><span class="s2">, </span><span class="s0">X</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">n_samples </span><span class="s1">= </span><span class="s0">X</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span>
+        <span class="s1">return </span><span class="s0">np</span><span class="s2">.</span><span class="s0">full</span><span class="s2">(</span><span class="s0">n_samples</span><span class="s2">, </span><span class="s0">self</span><span class="s2">.</span><span class="s0">strategy</span><span class="s2">)</span>
+
+    <span class="s1">def </span><span class="s0">score</span><span class="s2">(</span><span class="s0">self</span><span class="s2">, </span><span class="s0">X</span><span class="s2">, </span><span class="s0">y</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s0">y_pred </span><span class="s1">= </span><span class="s0">self</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X</span><span class="s2">)</span>
+        <span class="s1">return </span><span class="s0">accuracy_score</span><span class="s2">(</span><span class="s0">y</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+Testing the classifier and printing the score: 
+ <hr class="ls0">#%% 
+dummy </span><span class="s1">= </span><span class="s0">DummyClassifier</span><span class="s2">(</span><span class="s1">False</span><span class="s2">)</span>
+<span class="s0">dummy</span><span class="s2">.</span><span class="s0">fit</span><span class="s2">(</span><span class="s0">X_train</span><span class="s2">, </span><span class="s0">y_train_5</span><span class="s2">)</span>
+
+<span class="s0">dummy_pred </span><span class="s1">= </span><span class="s0">dummy</span><span class="s2">.</span><span class="s0">predict</span><span class="s2">(</span><span class="s0">X_test</span><span class="s2">)</span>
+<span class="s0">dummy_score </span><span class="s1">= </span><span class="s0">dummy</span><span class="s2">.</span><span class="s0">score</span><span class="s2">(</span><span class="s0">X_test</span><span class="s2">, </span><span class="s0">y_test_5</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;dummy_score: </span><span class="s4">{</span><span class="s0">dummy_score</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Comparison with book result 
+ 
+Our score is 0.909, which fits perfectly with the books result of 0.909 as well. They are of course compatible as both classifiers are just guessing false on all images. This should theoretically give us an accuraccy of 90%, which fits 
+ 
+(10 numbers, 1 of those is 5..., 90%) 
+ <hr class="ls0">#%% md 
+### Qd Conclusion 
+ <hr class="ls0">#%% md 
+### Answer 
+ 
+In general, this exercise was mostly about getting the basic machine learning and sklearn techniques into our fingers. 
+Splitting the MNIST test set for common ML best practices, and creating a very basic binary classifier adds greatly to the understanding of how ML works - and also that it is not magic. Even a fairly simple human catagorization of &quot;5 or not 5&quot; turns out to be not so easy, as can be seen on the plots of the false positives and false negatives. This was quite revealing, as some of the 5's looks like they should be easily recognizable. 
+ 
+Also, this exercise gave some insight into how python classes work together with the sklearn library, when creating our own classifier. Something that might be useful when a very specific type of classification is needed, or later in the course. 
+ 
+Lastly, we can also conclude that it is important to think about what kind of data and classification that you are working with. Just because you have an accuracy of 90%, does not necessarily make the model good, as we see when using the dummy classifier. 
+ <hr class="ls0">#%% md 
+## Performance Metrics 
+ <hr class="ls0">#%% md 
+### Qa Implement the Accuracy function and test it on the MNIST data. 
+ 
+We added the assert at the top of `UnpackPerfMetrics()`, to make sure the denom is above 0. 
+ <hr class="ls0">#%% 
+</span><span class="s1">import </span><span class="s0">math</span>
+
+<span class="s1">def </span><span class="s0">UnpackPerfMetrics</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s1">assert </span><span class="s0">y_true</span><span class="s2">.</span><span class="s0">shape </span><span class="s1">== </span><span class="s0">y_pred</span><span class="s2">.</span><span class="s0">shape </span><span class="s1">and </span><span class="s0">y_true</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">] </span><span class="s1">&gt; </span><span class="s4">0</span>
+    <span class="s0">TP</span><span class="s2">, </span><span class="s0">TN</span><span class="s2">, </span><span class="s0">FP</span><span class="s2">, </span><span class="s0">FN </span><span class="s1">= </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span>
+    <span class="s1">for </span><span class="s0">i</span><span class="s2">, </span><span class="s0">_ </span><span class="s1">in </span><span class="s0">enumerate</span><span class="s2">(</span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+        <span class="s1">if </span><span class="s0">y_true</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True and </span><span class="s0">y_pred</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True:</span>
+            <span class="s0">TP </span><span class="s1">+= </span><span class="s4">1</span>
+        <span class="s1">elif </span><span class="s0">y_true</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== False and </span><span class="s0">y_pred</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== False:</span>
+            <span class="s0">TN </span><span class="s1">+= </span><span class="s4">1</span>
+        <span class="s1">elif </span><span class="s0">y_true</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== True and </span><span class="s0">y_pred</span><span class="s2">[</span><span class="s0">i</span><span class="s2">] </span><span class="s1">== False:</span>
+            <span class="s0">FN </span><span class="s1">+= </span><span class="s4">1</span>
+        <span class="s1">else:</span>
+            <span class="s0">FP </span><span class="s1">+= </span><span class="s4">1</span>
+    <span class="s1">return </span><span class="s0">TP</span><span class="s2">, </span><span class="s0">TN</span><span class="s2">, </span><span class="s0">FP</span><span class="s2">, </span><span class="s0">FN</span>
+
+<span class="s1">def </span><span class="s0">MyAccuracy</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">TP</span><span class="s2">, </span><span class="s0">TN</span><span class="s2">, </span><span class="s0">FP</span><span class="s2">, </span><span class="s0">FN </span><span class="s1">= </span><span class="s0">UnpackPerfMetrics</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">accuracy </span><span class="s1">= </span><span class="s2">(</span><span class="s0">TP </span><span class="s1">+ </span><span class="s0">TN</span><span class="s2">) </span><span class="s1">/ </span><span class="s0">y_true</span><span class="s2">.</span><span class="s0">shape</span><span class="s2">[</span><span class="s4">0</span><span class="s2">]</span>
+    <span class="s1">return </span><span class="s0">accuracy</span>
+
+<span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">accuracy_score</span>
+
+<span class="s1">def </span><span class="s0">TestAccuracy</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">a0</span><span class="s1">=</span><span class="s0">MyAccuracy</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">a1</span><span class="s1">=</span><span class="s0">accuracy_score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MyAccuracy     = </span><span class="s4">{</span><span class="s0">a0</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;accuracy_score = </span><span class="s4">{</span><span class="s0">a1</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+
+    <span class="s0">eps </span><span class="s1">= </span><span class="s4">1E-9</span>
+    <span class="s1">if </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">a0 </span><span class="s1">- </span><span class="s0">a1</span><span class="s2">) </span><span class="s1">&gt; </span><span class="s0">eps</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;Difference in MyAccuracy and accuracy_score too big!&quot;</span><span class="s2">)</span>
+
+<span class="s0">TestAccuracy</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">sgd_predict_5</span><span class="s2">)</span>
+<span class="s0">TestAccuracy</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">dummy_pred</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+### Qb Implement Precision, Recall and $F_1$-score and test it on the MNIST data for both the SGD and Dummy classifier models 
+ <hr class="ls0">#%% md 
+Check for denom = 0 is in `UnpackPerfMetrics()`, as shown in Qa. 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">precision_score</span><span class="s2">, </span><span class="s0">recall_score</span><span class="s2">, </span><span class="s0">f1_score</span>
+<span class="s1">def </span><span class="s0">MyPrecision</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">TP</span><span class="s2">, </span><span class="s0">TN</span><span class="s2">, </span><span class="s0">FP</span><span class="s2">, </span><span class="s0">FN </span><span class="s1">= </span><span class="s0">UnpackPerfMetrics</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">TP </span><span class="s1">+ </span><span class="s0">FP </span><span class="s1">== </span><span class="s4">0</span><span class="s1">: return </span><span class="s4">0.0</span>
+    <span class="s1">return </span><span class="s0">TP </span><span class="s1">/ </span><span class="s2">(</span><span class="s0">TP </span><span class="s1">+ </span><span class="s0">FP</span><span class="s2">)</span>
+
+<span class="s1">def </span><span class="s0">MyRecall</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">TP</span><span class="s2">, </span><span class="s0">TN</span><span class="s2">, </span><span class="s0">FP</span><span class="s2">, </span><span class="s0">FN </span><span class="s1">= </span><span class="s0">UnpackPerfMetrics</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">TP </span><span class="s1">+ </span><span class="s0">FN </span><span class="s1">== </span><span class="s4">0</span><span class="s1">: return </span><span class="s4">0.0</span>
+    <span class="s1">return </span><span class="s0">TP </span><span class="s1">/ </span><span class="s2">(</span><span class="s0">TP </span><span class="s1">+ </span><span class="s0">FN</span><span class="s2">)</span>
+
+<span class="s1">def </span><span class="s0">MyF1Score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">precision </span><span class="s1">= </span><span class="s0">MyPrecision</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">recall </span><span class="s1">= </span><span class="s0">MyRecall</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">precision </span><span class="s1">== </span><span class="s4">0 </span><span class="s1">or </span><span class="s0">recall </span><span class="s1">== </span><span class="s4">0</span><span class="s1">: return </span><span class="s4">0.0</span>
+    <span class="s1">return </span><span class="s4">2 </span><span class="s1">/ </span><span class="s2">(</span><span class="s4">1</span><span class="s1">/</span><span class="s0">precision </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">/</span><span class="s0">recall</span><span class="s2">)</span>
+
+<span class="s1">def </span><span class="s0">TestMetrics</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span><span class="s1">:</span>
+    <span class="s0">p0 </span><span class="s1">= </span><span class="s0">MyPrecision</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">p1 </span><span class="s1">= </span><span class="s0">precision_score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+
+    <span class="s0">r0 </span><span class="s1">= </span><span class="s0">MyRecall</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">r1 </span><span class="s1">= </span><span class="s0">recall_score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+
+    <span class="s0">f1_0 </span><span class="s1">= </span><span class="s0">MyF1Score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+    <span class="s0">f1_1 </span><span class="s1">= </span><span class="s0">f1_score</span><span class="s2">(</span><span class="s0">y_true</span><span class="s2">, </span><span class="s0">y_pred</span><span class="s2">)</span>
+
+    <span class="s0">eps </span><span class="s1">= </span><span class="s4">1E-9</span>
+
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MyPrecision     = </span><span class="s4">{</span><span class="s0">p0</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;precision_score = </span><span class="s4">{</span><span class="s0">p1</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">p0 </span><span class="s1">- </span><span class="s0">p1</span><span class="s2">) </span><span class="s1">&gt; </span><span class="s0">eps</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;Difference in MyPrecision and precision_score too big!&quot;</span><span class="s2">)</span>
+
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MyRecall        = </span><span class="s4">{</span><span class="s0">r0</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;recall_score    = </span><span class="s4">{</span><span class="s0">r1</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">r0 </span><span class="s1">- </span><span class="s0">r1</span><span class="s2">) </span><span class="s1">&gt; </span><span class="s0">eps</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;Difference in MyRecall and recall_score too big!&quot;</span><span class="s2">)</span>
+
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;MyF1Score       = </span><span class="s4">{</span><span class="s0">f1_0</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s0">print</span><span class="s2">(</span><span class="s3">f&quot;f1_score        = </span><span class="s4">{</span><span class="s0">f1_1</span><span class="s4">}</span><span class="s3">&quot;</span><span class="s2">)</span>
+    <span class="s1">if </span><span class="s0">math</span><span class="s2">.</span><span class="s0">fabs</span><span class="s2">(</span><span class="s0">f1_0 </span><span class="s1">- </span><span class="s0">f1_1</span><span class="s2">) </span><span class="s1">&gt; </span><span class="s0">eps</span><span class="s1">:</span>
+        <span class="s1">raise </span><span class="s0">ValueError</span><span class="s2">(</span><span class="s3">&quot;Difference in MyF1Score and f1_score too big!&quot;</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;SGD Performance Metrics&quot;</span><span class="s2">)</span>
+<span class="s0">TestMetrics</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">sgd_predict_5</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;=============&quot;</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;Dummy Performance Metrics&quot;</span><span class="s2">)</span>
+<span class="s0">TestMetrics</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">dummy_pred</span><span class="s2">)</span>
+<hr class="ls0"><span class="s0">#%% md 
+### Qc The Confusion Matrix 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">confusion_matrix</span>
+
+<span class="s0">M_dummy </span><span class="s1">= </span><span class="s0">confusion_matrix</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">dummy_pred</span><span class="s2">)</span>
+<span class="s0">M_SGD </span><span class="s1">= </span><span class="s0">confusion_matrix</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">sgd_predict_5</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;M_dummy:</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s0">M_dummy</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;M_SGD:</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s0">M_SGD</span><span class="s2">)</span>
+
+<span class="s0">M_dummy_swapped </span><span class="s1">= </span><span class="s0">confusion_matrix</span><span class="s2">(</span><span class="s0">dummy_pred</span><span class="s2">, </span><span class="s0">y_test_5</span><span class="s2">)</span>
+<span class="s0">M_SGD_swapped </span><span class="s1">= </span><span class="s0">confusion_matrix</span><span class="s2">(</span><span class="s0">sgd_predict_5</span><span class="s2">, </span><span class="s0">y_test_5</span><span class="s2">)</span>
+
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;M_dummy_swapped:</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s0">M_dummy_swapped</span><span class="s2">)</span>
+<span class="s0">print</span><span class="s2">(</span><span class="s3">&quot;M_SGD_swapped:</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s2">, </span><span class="s0">M_SGD_swapped</span><span class="s2">)</span><hr class="ls0"><span class="s0">#%% md 
+### Answer 
+ 
+From the result of running the code, the matrix returned from confusion matrix must be 
+ 
+[[TN, FP] 
+ 
+[FN, TP]] 
+ 
+As the dummy model never predicts true, no positives are to be found, and the second column will be all 0's 
+ 
+In the SDG we see that it predicts some positives, so the second column has numbers. It is mostly correct, but there are still some false positives and negatives 
+ 
+#### Swapped variable order 
+ 
+Swapping the variable order swaps the places of FP and FN, and can therefore lead to some quite different conclusions. 
+ <hr class="ls0">#%% md 
+### Qd A Confusion Matrix Heat-map 
+ <hr class="ls0">#%% md 
+First we created heat maps for the 2x2 confusion matrixes, seen below 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">ConfusionMatrixDisplay</span>
+<span class="s1">import </span><span class="s0">matplotlib</span><span class="s2">.</span><span class="s0">pyplot </span><span class="s1">as </span><span class="s0">plt</span>
+
+<span class="s0">ConfusionMatrixDisplay</span><span class="s2">.</span><span class="s0">from_predictions</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">sgd_predict_5</span><span class="s2">, </span><span class="s0">cmap</span><span class="s1">=</span><span class="s3">&quot;Grays&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s3">&quot;SGD Confusion Matrix&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">figure</span><span class="s2">()</span>
+<span class="s0">ConfusionMatrixDisplay</span><span class="s2">.</span><span class="s0">from_predictions</span><span class="s2">(</span><span class="s0">y_test_5</span><span class="s2">, </span><span class="s0">dummy_pred</span><span class="s2">, </span><span class="s0">cmap</span><span class="s1">=</span><span class="s3">&quot;Grays&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">title</span><span class="s2">(</span><span class="s3">&quot;DummyClassifier Confusion Matrix&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+But as they dont tell us much about where the errors occur, we also created them on the 10x10 data 
+ <hr class="ls0">#%% 
+</span><span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">metrics </span><span class="s1">import </span><span class="s0">ConfusionMatrixDisplay</span>
+<span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">model_selection </span><span class="s1">import </span><span class="s0">cross_val_predict</span>
+<span class="s1">from </span><span class="s0">sklearn</span><span class="s2">.</span><span class="s0">preprocessing </span><span class="s1">import </span><span class="s0">StandardScaler</span>
+
+<span class="s5"># had to reduce size due to taking too long to create plots</span>
+
+<span class="s0">scaler </span><span class="s1">= </span><span class="s0">StandardScaler</span><span class="s2">()</span>
+
+<span class="s0">X_train_small </span><span class="s1">= </span><span class="s0">X_train</span><span class="s2">[</span><span class="s1">:</span><span class="s4">10000</span><span class="s2">]</span>
+<span class="s0">y_train_small </span><span class="s1">= </span><span class="s0">y_train</span><span class="s2">[</span><span class="s1">:</span><span class="s4">10000</span><span class="s2">]</span>
+
+<span class="s0">X_train_scaled_small </span><span class="s1">= </span><span class="s0">scaler</span><span class="s2">.</span><span class="s0">fit_transform</span><span class="s2">(</span><span class="s0">X_train_small</span><span class="s2">.</span><span class="s0">astype</span><span class="s2">(</span><span class="s0">np</span><span class="s2">.</span><span class="s0">float64</span><span class="s2">))</span>
+
+<span class="s0">y_train_pred </span><span class="s1">= </span><span class="s0">cross_val_predict</span><span class="s2">(</span><span class="s0">sgd_clf</span><span class="s2">, </span><span class="s0">X_train_scaled_small</span><span class="s2">, </span><span class="s0">y_train_small</span><span class="s2">, </span><span class="s0">cv</span><span class="s1">=</span><span class="s4">3</span><span class="s2">, </span><span class="s0">n_jobs</span><span class="s1">=</span><span class="s4">4</span><span class="s2">)</span>
+<span class="s0">ConfusionMatrixDisplay</span><span class="s2">.</span><span class="s0">from_predictions</span><span class="s2">(</span><span class="s0">y_train_small</span><span class="s2">, </span><span class="s0">y_train_pred</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s0">ConfusionMatrixDisplay</span><span class="s2">.</span><span class="s0">from_predictions</span><span class="s2">(</span><span class="s0">y_train_small</span><span class="s2">, </span><span class="s0">y_train_pred</span><span class="s2">,</span>
+<span class="s0">normalize</span><span class="s1">=</span><span class="s3">&quot;true&quot;</span><span class="s2">, </span><span class="s0">values_format</span><span class="s1">=</span><span class="s3">&quot;.0%&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span>
+
+<span class="s0">sample_weight </span><span class="s1">= </span><span class="s2">(</span><span class="s0">y_train_pred </span><span class="s1">!= </span><span class="s0">y_train_small</span><span class="s2">)</span>
+<span class="s0">ConfusionMatrixDisplay</span><span class="s2">.</span><span class="s0">from_predictions</span><span class="s2">(</span><span class="s0">y_train_small</span><span class="s2">, </span><span class="s0">y_train_pred</span><span class="s2">, </span><span class="s0">sample_weight</span><span class="s1">=</span><span class="s0">sample_weight</span><span class="s2">, </span><span class="s0">normalize</span><span class="s1">=</span><span class="s3">&quot;true&quot;</span><span class="s2">, </span><span class="s0">values_format</span><span class="s1">=</span><span class="s3">&quot;.0%&quot;</span><span class="s2">)</span>
+<span class="s0">plt</span><span class="s2">.</span><span class="s0">show</span><span class="s2">()</span><hr class="ls0"><span class="s0">#%% md 
+In the first heatmap, we see each row being the true digit label, and the column being the predicted label. 
+ 
+The diagonal are the true positives, and the other numbers in each row are the falsely classified numbers, and what else they were identified as. 
+ 
+This is then elaborated on in the other heatmaps, in total percentages, and percentages per row. This helps us see where our model typically classifies wrong, thereby where it should be improved. 
+ <hr class="ls0">#%% md 
+### Qe Conclusion 
+ <hr class="ls0">#%% md 
+In this exercise notebook we have looked at different types of metrics, that we can use to evaluate our models. We went through some of the functions that are used for this, such as recall, F1 and precision, and implemented them by hand, to better our understanding of how they work behind the scenes. 
+ 
+After that we looked at confusion matrices, that we can use to look at the numbers directly, to see how many TP, FP, TN and TP we are getting from our dataset through our model. We also compared our SGD model to the dummy model, to directly see how the dummy model works. We could see from the numbers produced here that due to how our dataset is structured and how our classification is made, why the dummy model achieved a high accuracy in the previous exercise. 
+ 
+Lastly, we looked at ways to visualize these heatmaps in different versions, to analyze where our model makes the most mistakes. This information can then be used to see where it needs to be improved to achieve better results. 
+</span></pre>
+</body>
+</html>
